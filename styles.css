@@ -2,24 +2,27 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
 }
 
+/* Vùng quét QR căn giữa, cố định, bo góc */
 .qr-area {
-  width: 350px;
-  max-width: 95vw;
-  margin: 0 auto;
   position: relative;
-  min-height: 260px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  width: 100%;
+  max-width: 360px;
+  min-height: 240px;
+  margin: 0 auto;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.13);
   background: #f7f7fb;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 #qr-reader {
   width: 100%;
-  height: 250px;
-  max-width: 350px;
+  min-height: 220px;
+  max-width: 360px;
+  margin: 0 auto;
   display: none; /* Hiển thị khi quét */
 }
 
@@ -37,7 +40,7 @@ body {
 }
 
 #scan-result {
-  font-size: 1.15em;
+  font-size: 1.12em;
   word-break: break-all;
 }
 
@@ -47,10 +50,17 @@ body {
   }
   .qr-area {
     max-width: 99vw;
-    min-height: 220px;
+    min-height: 180px;
   }
   #qr-reader {
     max-width: 99vw;
-    height: 200px;
+    min-height: 150px;
+  }
+  h3 {
+    font-size: 1.1em;
+  }
+  .btn {
+    font-size: 1em;
+    padding: 0.55em 1.1em;
   }
 }
