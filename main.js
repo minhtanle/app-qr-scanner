@@ -39,7 +39,7 @@ function startScanner() {
     { facingMode: "environment" },
     {
       fps: 12,
-      qrbox: { width: 220, height: 220 }
+      qrbox: { width: 300, height: 300 }
     },
     onScanSuccess,
     onScanError
