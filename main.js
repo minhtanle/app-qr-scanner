@@ -8,7 +8,7 @@ const qrPlaceholderElem = document.getElementById('qr-placeholder');
 
 let html5QrCode = null;
 let lastScannedText = null;
-const API_ENDPOINT = 'https://your-api-endpoint.com/scan'; // Sửa lại endpoint nếu cần
+const API_ENDPOINT = 'https://webhook.site/96425fe6-6a22-45e7-a76e-2a2ed4eed360'; // Sửa lại endpoint nếu cần
 
 function resetUI() {
   scanResultElem.innerHTML = '';
