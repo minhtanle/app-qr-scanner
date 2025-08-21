@@ -1,0 +1,25 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.qr-video {
+  width: 100%;
+  max-width: 350px;
+  aspect-ratio: 1/1;
+  background: #222;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+#loading {
+  font-size: 1rem;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+  .qr-video {
+    max-width: 95vw;
+  }
+}
