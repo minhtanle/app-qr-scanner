@@ -175,9 +175,11 @@
                         console.log('Scan timed out after 10 seconds.');
                     }, 10000);
 
+                    console.log('decodeOnce ............')
+
                     codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
+                        clearTimeout(timeoutId);
                         if (result) {
-                            clearTimeout(timeoutId);
                             console.log('Scanned QR Code:', result.text);
                             document.getElementById('result').textContent = result.text;
                             document.getElementById('modalResult').textContent = result.text;
@@ -193,11 +195,15 @@
                             modal.show();
                         }
                         if (err && !(err instanceof ZXing.NotFoundException)) {
-                            clearTimeout(timeoutId);
                             console.error(err);
                             document.getElementById('result').textContent = 'Error: ' + err;
                             resetScanner();
                         }
+                    }).catch((asyncError) => {
+                        clearTimeout(timeoutId);
+                        console.error('Async decode error:', asyncError);
+                        document.getElementById('result').textContent = 'Async error: ' + asyncError.message;
+                        resetScanner();
                     });
                 } catch (error) {
                     document.getElementById('result').textContent = error
