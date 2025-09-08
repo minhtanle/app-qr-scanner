@@ -93,6 +93,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
+        console.log('V1')
+
         window.addEventListener('load', function () {
             const codeReader = new ZXing.BrowserQRCodeReader();
             console.log('ZXing code reader initialized');
@@ -132,53 +134,42 @@
             }
 
             function startCameraAndScan() {
-                if (isScanning) return; // Prevent multiple scans
+                if (isScanning) return;
                 isScanning = true;
 
-                // Disable start button
                 const startButton = document.getElementById('startButton');
                 startButton.disabled = true;
 
-                // Reset video element state
                 const video = document.getElementById('video');
                 if (video.srcObject) {
                     video.srcObject.getTracks().forEach(track => track.stop());
                     video.srcObject = null;
                 }
-                video.pause(); // Ensure video is paused before new stream
+                video.pause();
 
-                checkCameraPermission().then((hasPermission) => {
-                    if (!hasPermission) {
-                        document.getElementById('result').textContent = 'Camera permission denied.';
+                // Thử camera sau, nếu thất bại thì dùng camera mặc định
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                    .catch(() => navigator.mediaDevices.getUserMedia({ video: true }))
+                    .then((mediaStream) => {
+                        stream = mediaStream;
+                        video.srcObject = stream;
+                        document.getElementById('video-container').style.display = 'block';
+
+                        video.play().catch((err) => {
+                            console.error('Error playing video:', err);
+                            document.getElementById('result').textContent = 'Error playing video: ' + err;
+                            resetScanner();
+                        });
+
+                        const selectedDeviceId = stream.getVideoTracks()[0].getSettings().deviceId;
+                        decodeOnce(selectedDeviceId);
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        document.getElementById('result').textContent = 'Error accessing camera: ' + err;
                         isScanning = false;
                         startButton.disabled = false;
-                        return;
-                    }
-
-                    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-                        .then((mediaStream) => {
-                            stream = mediaStream;
-                            video.srcObject = stream;
-                            document.getElementById('video-container').style.display = 'block';
-
-                            if (video.paused) {
-                                video.play().catch((err) => {
-                                    console.error('Error playing video:', err);
-                                    document.getElementById('result').textContent = 'Error playing video: ' + err;
-                                    resetScanner();
-                                });
-                            }
-
-                            const selectedDeviceId = stream.getVideoTracks()[0].getSettings().deviceId;
-                            decodeOnce(selectedDeviceId);
-                        })
-                        .catch((err) => {
-                            console.error(err);
-                            document.getElementById('result').textContent = 'Error accessing camera: ' + err;
-                            isScanning = false;
-                            startButton.disabled = false;
-                        });
-                });
+                    });
             }
 
             function decodeOnce(selectedDeviceId) {
