@@ -93,8 +93,6 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
-        console.log('V1')
-
         window.addEventListener('load', function () {
             const codeReader = new ZXing.BrowserQRCodeReader();
             console.log('ZXing code reader initialized');
@@ -123,50 +121,47 @@
                 clearTimeout(timeoutId);
             }
 
-            async function checkCameraPermission() {
-                try {
-                    const permission = await navigator.permissions.query({ name: 'camera' });
-                    return permission.state === 'granted' || permission.state === 'prompt';
-                } catch (err) {
-                    console.error('Permission check error:', err);
-                    return false;
-                }
-            }
-
             function startCameraAndScan() {
-                if (isScanning) return;
+                if (isScanning) return; // Prevent multiple scans
                 isScanning = true;
 
+                // Disable start button
                 const startButton = document.getElementById('startButton');
                 startButton.disabled = true;
 
+                // Reset video element state
                 const video = document.getElementById('video');
                 if (video.srcObject) {
                     video.srcObject.getTracks().forEach(track => track.stop());
                     video.srcObject = null;
                 }
-                video.pause();
+                video.pause(); // Ensure video is paused before new stream
 
-                // Thử camera sau, nếu thất bại thì dùng camera mặc định
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-                    .catch(() => navigator.mediaDevices.getUserMedia({ video: true }))
                     .then((mediaStream) => {
                         stream = mediaStream;
                         video.srcObject = stream;
                         document.getElementById('video-container').style.display = 'block';
 
-                        video.play().catch((err) => {
-                            console.error('Error playing video:', err);
-                            document.getElementById('result').textContent = 'Error playing video: ' + err;
-                            resetScanner();
-                        });
+                        // Only call play() if the video is not already playing
+                        if (video.paused) {
+                            video.play().catch((err) => {
+                                if (err.name === 'AbortError') {
+                                    console.warn('Video play was interrupted, likely due to stream change.');
+                                } else {
+                                    console.error('Error playing video:', err);
+                                    document.getElementById('result').textContent = 'Error playing video: ' + err;
+                                    resetScanner();
+                                }
+                            });
+                        }
 
                         const selectedDeviceId = stream.getVideoTracks()[0].getSettings().deviceId;
                         decodeOnce(selectedDeviceId);
                     })
                     .catch((err) => {
                         console.error(err);
-                        document.getElementById('result').textContent = 'Error accessing camera: ' + err;
+                        document.getElementById('result').textContent = 'Error accessing main camera: ' + err;
                         isScanning = false;
                         startButton.disabled = false;
                     });
@@ -177,31 +172,35 @@
                     timeoutId = setTimeout(() => {
                         resetScanner();
                         document.getElementById('result').textContent = 'Scan timed out after 10 seconds.';
+                        console.log('Scan timed out after 10 seconds.');
                     }, 10000);
 
                     codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
-                        clearTimeout(timeoutId); // Dọn dẹp timeout ngay đầu
                         if (result) {
-                            // Xử lý kết quả
+                            clearTimeout(timeoutId);
                             console.log('Scanned QR Code:', result.text);
                             document.getElementById('result').textContent = result.text;
                             document.getElementById('modalResult').textContent = result.text;
-                            stopStream();
                             codeReader.reset();
+                            if (stream) {
+                                stream.getTracks().forEach(track => track.stop());
+                                stream = null;
+                            }
                             document.getElementById('video-container').style.display = 'none';
                             isScanning = false;
                             document.getElementById('startButton').disabled = false;
-                            new bootstrap.Modal(document.getElementById('scanResultModal')).show();
-                        } else if (err && !(err instanceof ZXing.NotFoundException)) {
+                            const modal = new bootstrap.Modal(document.getElementById('scanResultModal'));
+                            modal.show();
+                        }
+                        if (err && !(err instanceof ZXing.NotFoundException)) {
+                            clearTimeout(timeoutId);
                             console.error(err);
                             document.getElementById('result').textContent = 'Error: ' + err;
                             resetScanner();
                         }
                     });
                 } catch (error) {
-                    clearTimeout(timeoutId);
-                    document.getElementById('result').textContent = 'Error: ' + error;
-                    resetScanner();
+                    document.getElementById('result').textContent = error
                 }
             }
 
