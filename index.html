@@ -179,6 +179,8 @@
 
                     codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
                         clearTimeout(timeoutId);
+                        console.log(result)
+
                         if (result) {
                             console.log('Scanned QR Code:', result.text);
                             document.getElementById('result').textContent = result.text;
