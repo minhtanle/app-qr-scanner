@@ -107,11 +107,11 @@
                 }
             }
 
-            function resetScanner(stopStream = true) {
+            function resetScanner(isStop = true) {
                 codeReader.reset();
                 const video = document.getElementById('video');
 
-                if (stopStream) stopStream();
+                if (isStop) stopStream();
 
                 video.pause();
                 video.srcObject = null;
