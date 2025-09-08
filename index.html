@@ -177,44 +177,56 @@
 
                     console.log('decodeOnce ............')
 
-                    // codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
-                    //     console.log(result)
-                    //     document.getElementById('result').textContent = result.text
-                    // }).catch((err) => {
-                    //     console.error(err)
-                    //     document.getElementById('result').textContent = err
-                    // })
-
-                    codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video', (result, err) => {
-                        clearTimeout(timeoutId);
+                    codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
                         console.log(result)
 
-                        if (result) {
-                            console.log('Scanned QR Code:', result.text);
-                            document.getElementById('result').textContent = result.text;
-                            document.getElementById('modalResult').textContent = result.text;
-                            codeReader.reset();
-                            if (stream) {
-                                stream.getTracks().forEach(track => track.stop());
-                                stream = null;
-                            }
-                            document.getElementById('video-container').style.display = 'none';
-                            isScanning = false;
-                            document.getElementById('startButton').disabled = false;
-                            const modal = new bootstrap.Modal(document.getElementById('scanResultModal'));
-                            modal.show();
-                        }
-                        if (err && !(err instanceof ZXing.NotFoundException)) {
-                            console.error(err);
-                            document.getElementById('result').textContent = 'Error: ' + err;
-                            resetScanner();
-                        }
-                    }).catch((asyncError) => {
+                        document.getElementById('result').textContent = result.text;
+                        document.getElementById('modalResult').textContent = result.text;
+                        codeReader.reset();
+                        stopStream();
+
+                        document.getElementById('video-container').style.display = 'none';
+                        isScanning = false;
+                        document.getElementById('startButton').disabled = false;
+                        const modal = new bootstrap.Modal(document.getElementById('scanResultModal'));
+                        modal.show();
+                    }).catch((err) => {
+                        console.error(err)
+                        document.getElementById('result').textContent = err
+                    }).finally(() => {
                         clearTimeout(timeoutId);
-                        console.error('Async decode error:', asyncError);
-                        document.getElementById('result').textContent = 'Async error: ' + asyncError.message;
-                        resetScanner();
                     });
+
+                    // codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
+                    //     clearTimeout(timeoutId);
+                    //     console.log(result)
+
+                    //     if (result) {
+                    //         console.log('Scanned QR Code:', result.text);
+                    //         document.getElementById('result').textContent = result.text;
+                    //         document.getElementById('modalResult').textContent = result.text;
+                    //         codeReader.reset();
+                    //         if (stream) {
+                    //             stream.getTracks().forEach(track => track.stop());
+                    //             stream = null;
+                    //         }
+                    //         document.getElementById('video-container').style.display = 'none';
+                    //         isScanning = false;
+                    //         document.getElementById('startButton').disabled = false;
+                    //         const modal = new bootstrap.Modal(document.getElementById('scanResultModal'));
+                    //         modal.show();
+                    //     }
+                    //     if (err && !(err instanceof ZXing.NotFoundException)) {
+                    //         console.error(err);
+                    //         document.getElementById('result').textContent = 'Error: ' + err;
+                    //         resetScanner();
+                    //     }
+                    // }).catch((asyncError) => {
+                    //     clearTimeout(timeoutId);
+                    //     console.error('Async decode error:', asyncError);
+                    //     document.getElementById('result').textContent = 'Async error: ' + asyncError.message;
+                    //     resetScanner();
+                    // });
                 } catch (error) {
                     document.getElementById('result').textContent = error
                 }
