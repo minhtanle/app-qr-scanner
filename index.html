@@ -107,10 +107,12 @@
                 }
             }
 
-            function resetScanner() {
+            function resetScanner(stopStream = true) {
                 codeReader.reset();
                 const video = document.getElementById('video');
-                stopStream();
+
+                if (stopStream) stopStream();
+
                 video.pause();
                 video.srcObject = null;
                 document.getElementById('video-container').style.display = 'none';
@@ -183,18 +185,19 @@
                         document.getElementById('result').textContent = result.text;
                         document.getElementById('modalResult').textContent = result.text;
                         codeReader.reset();
-                        stopStream();
+                        // stopStream();
 
                         document.getElementById('video-container').style.display = 'none';
                         isScanning = false;
                         document.getElementById('startButton').disabled = false;
-                        const modal = new bootstrap.Modal(document.getElementById('scanResultModal'));
-                        modal.show();
+
+                        new bootstrap.Modal(document.getElementById('scanResultModal')).show();
                     }).catch((err) => {
                         console.error(err)
                         document.getElementById('result').textContent = err
                     }).finally(() => {
                         clearTimeout(timeoutId);
+                        resetScanner(false);
                     });
 
                     // codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
@@ -229,6 +232,7 @@
                     // });
                 } catch (error) {
                     document.getElementById('result').textContent = error
+                    resetScanner();
                 }
             }
 
