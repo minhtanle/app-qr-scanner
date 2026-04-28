@@ -16,8 +16,16 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
         :root {
-            --info-height: 350px;
+            --app-height: 100svh;
+            --info-height: clamp(280px, 42dvh, 360px);
             --overlap: 30px; /* Độ đè lên của info-section */
+        }
+
+        @supports (height: 100dvh) {
+            :root {
+                --app-height: 100dvh;
+                --info-height: clamp(280px, 42dvh, 380px);
+            }
         }
 
         html,
@@ -35,6 +43,8 @@
             background: #000;
             position: fixed;
             inset: 0;
+            min-height: var(--app-height);
+            height: var(--app-height);
             touch-action: manipulation;
         }
 
@@ -53,7 +63,7 @@
             left: 0;
             width: 100%;
             /* Chiều cao bằng toàn màn hình trừ đi phần info không đè */
-            height: calc(100% - var(--info-height) + var(--overlap));
+            height: calc(var(--app-height) - var(--info-height) + var(--overlap));
             z-index: 1;
         }
 
@@ -63,6 +73,7 @@
             left: 0;
             width: 100%;
             height: var(--info-height);
+            max-height: 52dvh;
             background: white;
             border-top-left-radius: 2.5rem;
             border-top-right-radius: 2.5rem;
@@ -83,6 +94,17 @@
 
         .btn-shadow {
             box-shadow: 0 10px 20px -5px rgba(161, 27, 75, 0.4);
+        }
+
+        @media (max-height: 700px) {
+            :root {
+                --info-height: clamp(250px, 45dvh, 320px);
+            }
+
+            #info-section {
+                border-top-left-radius: 2rem;
+                border-top-right-radius: 2rem;
+            }
         }
     </style>
 </head>
@@ -192,7 +214,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                const buildVersion = '1.0.3';
+                const buildVersion = '1.0.4';
                 alert(`Da tai code moi. Build: ${buildVersion}`);
 
                 navigator.serviceWorker.register('./sw.js').catch(() => {
@@ -201,7 +223,7 @@
             });
         } else {
             window.addEventListener('load', () => {
-                const buildVersion = '1.0.3';
+                const buildVersion = '1.0.4';
                 alert(`Da tai code moi. Build: ${buildVersion}`);
             });
         }
