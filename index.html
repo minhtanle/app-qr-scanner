@@ -181,7 +181,6 @@
                     QUÉT TIẾP
                 </button>
             </div>
-            <div class="h-2 sm:hidden"></div>
         </div>
     </div>
 
@@ -214,7 +213,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                const buildVersion = '1.0.6';
+                const buildVersion = '1.0.7';
                 alert(`Da tai code moi. Build: ${buildVersion}`);
 
                 navigator.serviceWorker.register('./sw.js').catch(() => {
@@ -223,7 +222,7 @@
             });
         } else {
             window.addEventListener('load', () => {
-                const buildVersion = '1.0.6';
+                const buildVersion = '1.0.7';
                 alert(`Da tai code moi. Build: ${buildVersion}`);
             });
         }
