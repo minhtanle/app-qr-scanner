@@ -192,9 +192,17 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
+                const buildVersion = '1.0.0';
+                alert(`Da tai code moi. Build: ${buildVersion}`);
+
                 navigator.serviceWorker.register('./sw.js').catch(() => {
                     // Silent catch: app should still work without PWA features.
                 });
+            });
+        } else {
+            window.addEventListener('load', () => {
+                const buildVersion = '1.0.0';
+                alert(`Da tai code moi. Build: ${buildVersion}`);
             });
         }
 

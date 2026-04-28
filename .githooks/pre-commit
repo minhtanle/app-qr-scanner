@@ -1,0 +1,21 @@
+#!/bin/sh
+
+PS_EXE="${WINDIR}/System32/WindowsPowerShell/v1.0/powershell.exe"
+if [ -x "$PS_EXE" ]; then
+  "$PS_EXE" -NoProfile -ExecutionPolicy Bypass -File "scripts/bump-version.ps1"
+  status=$?
+elif command -v pwsh >/dev/null 2>&1; then
+  pwsh -NoProfile -ExecutionPolicy Bypass -File "scripts/bump-version.ps1"
+  status=$?
+else
+  echo "PowerShell not found. Commit aborted."
+  exit 1
+fi
+
+if [ $status -ne 0 ]; then
+  echo "Version bump failed. Commit aborted."
+  exit $status
+fi
+
+git add index.html sw.js
+exit 0
