@@ -214,7 +214,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                const buildVersion = '1.0.5';
+                const buildVersion = '1.0.6';
                 alert(`Da tai code moi. Build: ${buildVersion}`);
 
                 navigator.serviceWorker.register('./sw.js').catch(() => {
@@ -223,7 +223,7 @@
             });
         } else {
             window.addEventListener('load', () => {
-                const buildVersion = '1.0.5';
+                const buildVersion = '1.0.6';
                 alert(`Da tai code moi. Build: ${buildVersion}`);
             });
         }

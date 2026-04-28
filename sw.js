@@ -1,4 +1,4 @@
-const CACHE_NAME = 'qr-scan-pro-v1.0.5';
+const CACHE_NAME = 'qr-scan-pro-v1.0.6';
 const APP_SHELL = [
   './',
   './index.html',
@@ -6,11 +6,14 @@ const APP_SHELL = [
   './assets/icons/icon-192.svg',
   './assets/icons/icon-512.svg'
 ];
+const DISABLE_CACHE = true;
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
-  );
+  if (!DISABLE_CACHE) {
+    event.waitUntil(
+      caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
+    );
+  }
   self.skipWaiting();
 });
 
@@ -19,7 +22,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keys) =>
       Promise.all(
         keys
-          .filter((key) => key !== CACHE_NAME)
+          .filter((key) => DISABLE_CACHE || key !== CACHE_NAME)
           .map((key) => caches.delete(key))
       )
     )
@@ -29,6 +32,11 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') {
+    return;
+  }
+
+  if (DISABLE_CACHE) {
+    event.respondWith(fetch(event.request));
     return;
   }
 
