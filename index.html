@@ -172,7 +172,7 @@
             </div>
         </div>
 
-        <div class="p-3 pt-2 space-y-3 bg-white">
+        <div class="px-2 bg-white">
             <div class="flex gap-3">
                 <button class="flex-1 py-4 bg-gray-100 text-gray-500 font-bold rounded-2xl text-xs tracking-widest active:scale-95 transition-transform">
                     STOP
@@ -214,7 +214,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                const buildVersion = '1.0.4';
+                const buildVersion = '1.0.5';
                 alert(`Da tai code moi. Build: ${buildVersion}`);
 
                 navigator.serviceWorker.register('./sw.js').catch(() => {
@@ -223,7 +223,7 @@
             });
         } else {
             window.addEventListener('load', () => {
-                const buildVersion = '1.0.4';
+                const buildVersion = '1.0.5';
                 alert(`Da tai code moi. Build: ${buildVersion}`);
             });
         }
