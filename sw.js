@@ -1,4 +1,4 @@
-const CACHE_VERSION = '1.1.4';
+const CACHE_VERSION = '1.1.7';
 const CACHE_NAMES = {
   app: `qr-scan-app-${CACHE_VERSION}`,
   cdn: `qr-scan-cdn-${CACHE_VERSION}`,
@@ -43,6 +43,13 @@ self.addEventListener('activate', (event) => {
     )
   );
   self.clients.claim();
+});
+
+// Lắng nghe message từ app để skip waiting (kích hoạt SW mới ngay)
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 // Stale-while-revalidate: trả về cache ngay, update cache ở background

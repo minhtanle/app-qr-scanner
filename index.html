@@ -13,7 +13,7 @@
     <title>Web Mobile QR Scan Pro</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/style.css?v=1.1.7">
 </head>
 <body class="relative">
 
@@ -47,8 +47,16 @@
     </div>
 
     <div id="info-section">
-        <div class="h-1.5 w-32 bg-gray-100 mx-auto mt-3 rounded-full overflow-hidden">
-            <div class="h-full bg-emerald-500 animate-[shrink_0.5s_linear_infinite]" style="width: 100%;"></div>
+        <!-- Khu vực thông báo Update (Toast) -->
+        <div id="update-toast-container" class="h-8 w-full px-6 flex items-center justify-center mt-2">
+            <!-- Loading bar mặc định -->
+            <div id="loading-bar" class="h-1.5 w-32 bg-gray-100 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 animate-[shrink_0.5s_linear_infinite]" style="width: 100%;"></div>
+            </div>
+            <!-- Toast Update (ẩn mặc định) -->
+            <div id="update-toast" class="hidden w-full max-w-xs bg-gray-900 text-white text-center text-xs font-bold py-2 px-4 rounded-full shadow-lg cursor-pointer active:scale-95 transition-transform">
+                🚀 Phiên bản mới! Chạm để cập nhật
+            </div>
         </div>
 
         <div class="p-3 ios-scroll-lock">
@@ -111,6 +119,6 @@
         </div>
     </div>
 
-    <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/app.js?v=1.1.7"></script>
 </body>
 </html>

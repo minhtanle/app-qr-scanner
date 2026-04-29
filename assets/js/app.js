@@ -1,5 +1,21 @@
 // App version - sẽ được bump-version.ps1 cập nhật
-const buildVersion = '1.1.3';
+const buildVersion = '1.1.6';
+
+// Fix viewport height on mobile (khắc phục lỗi alert làm lệch layout)
+function fixViewportHeight() {
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    // Force reflow cho body
+    document.body.style.height = window.innerHeight + 'px';
+    requestAnimationFrame(() => {
+        document.body.style.height = '';
+    });
+}
+
+window.addEventListener('resize', fixViewportHeight);
+window.addEventListener('orientationchange', () => {
+    setTimeout(fixViewportHeight, 100);
+});
+fixViewportHeight();
 
 // Toggle modal settings
 function toggleModal() {
@@ -35,21 +51,67 @@ document.addEventListener('touchmove', (event) => {
     }
 }, { passive: false });
 
+// Xử lý Update Toast
+function showUpdateToast() {
+    const loadingBar = document.getElementById('loading-bar');
+    const updateToast = document.getElementById('update-toast');
+    const container = document.getElementById('update-toast-container');
+
+    if (loadingBar) loadingBar.classList.add('hidden');
+    if (updateToast) {
+        updateToast.classList.remove('hidden');
+        updateToast.addEventListener('click', () => {
+            // Nếu có SW mới, skipWaiting để kích hoạt ngay
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                navigator.serviceWorker.ready.then((registration) => {
+                    if (registration.waiting) {
+                        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                    }
+                });
+            } else {
+                window.location.reload();
+            }
+        });
+    }
+}
+
 // Service Worker registration
 if ('serviceWorker' in navigator) {
+    let refreshing = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-        window.location.reload();
+        if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+        }
     });
 
     window.addEventListener('load', () => {
-        alert(`Da tai code moi. Build: ${buildVersion}`);
+        console.log(`Da tai code moi. Build: ${buildVersion}`);
 
-        navigator.serviceWorker.register('./sw.js').catch(() => {
+        navigator.serviceWorker.register('./sw.js').then((registration) => {
+            // Kiểm tra nếu có SW mới đang chờ
+            if (registration.waiting) {
+                showUpdateToast();
+            }
+
+            // Lắng nghe SW mới được cài đặt
+            registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        showUpdateToast();
+                    }
+                });
+            });
+        }).catch(() => {
             // Silent catch: app should still work without PWA features.
         });
+
+        // Fix lại layout sau khi load xong
+        setTimeout(fixViewportHeight, 500);
     });
 } else {
     window.addEventListener('load', () => {
-        alert(`Da tai code moi. Build: ${buildVersion}`);
+        console.log(`Da tai code moi. Build: ${buildVersion}`);
     });
 }
