@@ -4,7 +4,7 @@
     --app-height: 100svh;
     --info-height: clamp(280px, 42dvh, 360px);
     --overlap: 30px;
-    --vh: 1vh; /* Fallback cho mobile */
+    --vh: 1vh;
 }
 
 @supports (height: 100dvh) {
@@ -15,7 +15,7 @@
 }
 
 html, body {
-    width:100%;
+    width: 100%;
     height: 100%;
     margin: 0;
     overscroll-behavior-y: none;
@@ -34,17 +34,53 @@ body {
     flex-direction: column;
 }
 
-body {
-    font-family: 'Inter', sans-serif;
-    overflow: hidden;
-    background: #000;
-    position: fixed;
-    inset: 0;
-    min-height: var(--app-height);
-    height: var(--app-height);
-    touch-action: manipulation;
+/* Camera section - Chiếm phần còn lại của màn hình */
+#camera-section {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    z-index: 1;
+    /* Đảm bảo không bị info-section che */
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Info section - Khung dưới cùng */
+#info-section {
+    position: relative;
+    width: 100%;
+    height: var(--info-height);
+    max-height: none;
+    background: white;
+    border-top-left-radius: 2.5rem;
+    border-top-right-radius: 2.5rem;
+    box-shadow: 0 -15px 30px rgba(0,0,0,0.4);
+    z-index: 10;
     display: flex;
     flex-direction: column;
+    margin-top: calc(-1 * var(--overlap));
+    overscroll-behavior: contain;
+}
+
+.ios-scroll-lock {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+/* Action bar - Dính sát đáy dưới cùng */
+.action-bar {
+    padding: 0.5rem;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);
+    background: white;
+    /* Đẩy xuống dưới cùng của info-section */
+    margin-top: auto;
+}
+
+.btn-shadow {
+    box-shadow: 0 10px 20px -5px rgba(161, 27, 75, 0.4);
 }
 
 @keyframes scan {
@@ -58,53 +94,6 @@ body {
 @keyframes shrink {
     from { width: 100%; }
     to { width: 0%; }
-}
-
-#camera-section {
-    position: relative;
-    width: 100%;
-    flex: 1;
-    min-height: 0;
-    z-index: 1;
-    /* Không cần padding-bottom vì info-section đã fixed ở dưới */
-}
-
-#info-section {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: var(--info-height);
-    max-height: none;
-    background: white;
-    border-top-left-radius: 2.5rem;
-    border-top-right-radius: 2.5rem;
-    box-shadow: 0 -15px 30px rgba(0,0,0,0.4);
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    /* Padding bảo vệ inner elements khỏi safe-area */
-    padding-bottom: env(safe-area-inset-bottom);
-    overscroll-behavior: contain;
-}
-
-.ios-scroll-lock {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-}
-
-.action-bar {
-    padding:0.5rem;
-    padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);
-    background: white;
-    margin-top: auto; /* Đẩy xuống đáy info-section */
-}
-
-.btn-shadow {
-    box-shadow: 0 10px 20px -5px rgba(161, 27, 75, 0.4);
 }
 
 @media (max-height: 700px) {

@@ -1,5 +1,5 @@
 // App version - sẽ được bump-version.ps1 cập nhật
-const buildVersion = '1.1.15';
+const buildVersion = '1.1.16';
 
 // Fix viewport height on mobile (khắc phục lỗi alert làm lệch layout)
 function fixViewportHeight() {
