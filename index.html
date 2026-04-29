@@ -46,6 +46,8 @@
             min-height: var(--app-height);
             height: var(--app-height);
             touch-action: manipulation;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Animation quét QR: 2.5s */
@@ -58,22 +60,18 @@
         }
 
         #camera-section {
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: relative;
             width: 100%;
-            /* Chiều cao bằng toàn màn hình trừ đi phần info không đè */
-            height: calc(var(--app-height) - var(--info-height) + var(--overlap));
+            flex: 1;
+            min-height: 0;
             z-index: 1;
         }
 
         #info-section {
-            position: absolute;
-            bottom: 0;
-            left: 0;
+            position: relative;
             width: 100%;
             height: var(--info-height);
-            max-height: 52dvh;
+            max-height: none;
             background: white;
             border-top-left-radius: 2.5rem;
             border-top-right-radius: 2.5rem;
@@ -81,6 +79,7 @@
             z-index: 10;
             display: flex;
             flex-direction: column;
+            margin-top: calc(-1 * var(--overlap));
             overscroll-behavior: contain;
         }
 
@@ -219,7 +218,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                const buildVersion = '1.0.8';
+                const buildVersion = '1.0.9';
                 alert(`Da tai code moi. Build: ${buildVersion}`);
 
                 navigator.serviceWorker.register('./sw.js').catch(() => {
@@ -228,7 +227,7 @@
             });
         } else {
             window.addEventListener('load', () => {
-                const buildVersion = '1.0.8';
+                const buildVersion = '1.0.9';
                 alert(`Da tai code moi. Build: ${buildVersion}`);
             });
         }
