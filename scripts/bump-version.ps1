@@ -1,33 +1,33 @@
 $ErrorActionPreference = 'Stop'
 
 $root = Split-Path -Parent $PSScriptRoot
-$indexPath = Join-Path $root 'index.html'
+$appJsPath = Join-Path $root 'assets/js/app.js'
 $swPath = Join-Path $root 'sw.js'
 
-$indexContent = Get-Content -Path $indexPath -Raw
+$appJsContent = Get-Content -Path $appJsPath -Raw
 
-$currentVersionMatch = [regex]::Match($indexContent, "const buildVersion = '(\d+)\.(\d+)\.(\d+)';")
+$currentVersionMatch = [regex]::Match($appJsContent, "const buildVersion = '(\d+)\.(\d+)\.(\d+)';")
 if ($currentVersionMatch.Success) {
     $major = [int]$currentVersionMatch.Groups[1].Value
     $minor = [int]$currentVersionMatch.Groups[2].Value
     $patch = [int]$currentVersionMatch.Groups[3].Value + 1
     $version = "$major.$minor.$patch"
 } else {
-    $version = '1.0.1'
+    $version = '1.1.0'
 }
 
-$indexContent = [regex]::Replace(
-    $indexContent,
+$appJsContent = [regex]::Replace(
+    $appJsContent,
     "const buildVersion = '[^']*';",
     "const buildVersion = '$version';"
 )
-Set-Content -Path $indexPath -Value $indexContent -NoNewline
+Set-Content -Path $appJsPath -Value $appJsContent -NoNewline
 
 $swContent = Get-Content -Path $swPath -Raw
 $swContent = [regex]::Replace(
     $swContent,
-    "const CACHE_NAME = 'qr-scan-pro-v[^']*';",
-    "const CACHE_NAME = 'qr-scan-pro-v$version';"
+    "const CACHE_VERSION = '[^']*';",
+    "const CACHE_VERSION = '$version';"
 )
 Set-Content -Path $swPath -Value $swContent -NoNewline
 

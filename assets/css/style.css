@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+:root {
+    --app-height: 100svh;
+    --info-height: clamp(280px, 42dvh, 360px);
+    --overlap: 30px;
+}
+
+@supports (height: 100dvh) {
+    :root {
+        --app-height: 100dvh;
+        --info-height: clamp(280px, 42dvh, 380px);
+    }
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overscroll-behavior-y: none;
+    overscroll-behavior-x: none;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    background: #000;
+    position: fixed;
+    inset: 0;
+    min-height: var(--app-height);
+    height: var(--app-height);
+    touch-action: manipulation;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes scan {
+    0%, 100% { transform: translateY(0); opacity: 0.2; }
+    50% { transform: translateY(220px); opacity: 1; }
+}
+.scan-anim {
+    animation: scan 2.5s ease-in-out infinite;
+}
+
+@keyframes shrink {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+#camera-section {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    z-index: 1;
+}
+
+#info-section {
+    position: relative;
+    width: 100%;
+    height: var(--info-height);
+    max-height: none;
+    background: white;
+    border-top-left-radius: 2.5rem;
+    border-top-right-radius: 2.5rem;
+    box-shadow: 0 -15px 30px rgba(0,0,0,0.4);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    margin-top: calc(-1 * var(--overlap));
+    overscroll-behavior: contain;
+}
+
+.ios-scroll-lock {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+.action-bar {
+    padding: 0.5rem;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);
+    background: white;
+}
+
+.btn-shadow {
+    box-shadow: 0 10px 20px -5px rgba(161, 27, 75, 0.4);
+}
+
+@media (max-height: 700px) {
+    :root {
+        --info-height: clamp(250px, 45dvh, 320px);
+    }
+
+    #info-section {
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+    }
+}

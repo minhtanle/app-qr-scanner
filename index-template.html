@@ -6,17 +6,18 @@
     <meta name="theme-color" content="#0b1020">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="QR Scan Pro">
+    <meta name="apple-mobile-web-app-title" content="App Name">
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="icon" href="./assets/icons/icon-192.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="./assets/icons/icon-192.svg">
-    <title>Web Mobile QR Scan Pro</title>
+    <title>App Title</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body class="relative">
 
+    <!-- FRAME: Camera/Top Section -->
     <div id="camera-section" class="bg-slate-900 overflow-hidden">
         <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1000&auto=format&fit=crop"
              class="w-full h-full object-cover opacity-60">
@@ -26,14 +27,15 @@
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
             <div class="flex flex-col items-center">
-                <h1 class="text-white font-extrabold text-lg tracking-[0.2em] drop-shadow-lg">CHECK OUT</h1>
-                <span class="text-emerald-400 text-[10px] font-bold tracking-widest animate-pulse">● LIVE CAMERA</span>
+                <h1 class="text-white font-extrabold text-lg tracking-[0.2em] drop-shadow-lg">APP TITLE</h1>
+                <span class="text-emerald-400 text-[10px] font-bold tracking-widest animate-pulse">● STATUS</span>
             </div>
             <button onclick="toggleModal()" class="w-10 h-10 rounded-full bg-black/40 text-white backdrop-blur-md flex items-center justify-center border border-white/10">
                 <i class="fa-solid fa-gear"></i>
             </button>
         </div>
 
+        <!-- QR Scanner Animation - Thay thế bằng nội dung khác nếu cần -->
         <div class="absolute inset-0 flex items-center justify-center pb-20">
             <div class="relative w-60 h-60">
                 <div class="absolute -top-1 -left-1 w-12 h-12 border-t-4 border-l-4 border-emerald-500 rounded-tl-3xl"></div>
@@ -46,62 +48,67 @@
         </div>
     </div>
 
+    <!-- FRAME: Info Section (Bottom Sheet) -->
     <div id="info-section">
+        <!-- Loading indicator -->
         <div class="h-1.5 w-32 bg-gray-100 mx-auto mt-3 rounded-full overflow-hidden">
             <div class="h-full bg-emerald-500 animate-[shrink_0.5s_linear_infinite]" style="width: 100%;"></div>
         </div>
 
+        <!-- APP CONTENT: Sửa nội dung từ đây -->
         <div class="p-3 ios-scroll-lock">
             <div class="flex items-center gap-5">
                 <div class="w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-extrabold text-2xl shadow-lg shadow-emerald-100">
-                    Đ
+                    A
                 </div>
                 <div class="flex-grow">
-                    <h2 class="text-2xl font-extrabold text-gray-900 leading-tight">QUÝ ĐỨC</h2>
+                    <h2 class="text-2xl font-extrabold text-gray-900 leading-tight">APP CONTENT</h2>
                     <div class="flex items-center gap-2 mt-1">
-                        <span class="text-xs font-bold text-gray-400 uppercase tracking-tighter">Mã: 11001</span>
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-tighter">Mã: 00000</span>
                         <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
-                        <span class="text-xs font-bold text-emerald-600 uppercase">Thành công</span>
+                        <span class="text-xs font-bold text-emerald-600 uppercase">Trạng thái</span>
                     </div>
                 </div>
             </div>
 
             <div class="mt-6 space-y-2">
                 <div class="flex justify-between items-center text-sm">
-                    <span class="text-gray-400 font-medium tracking-tight">Phụ huynh:</span>
-                    <span class="text-gray-800 font-bold">Nguyễn Đăng Thu Hà</span>
+                    <span class="text-gray-400 font-medium tracking-tight">Thông tin 1:</span>
+                    <span class="text-gray-800 font-bold">Giá trị 1</span>
                 </div>
                 <div class="flex justify-between items-center text-sm">
-                    <span class="text-gray-400 font-medium tracking-tight">Thời gian ra:</span>
-                    <span class="text-emerald-600 font-black text-lg">14:21:38</span>
+                    <span class="text-gray-400 font-medium tracking-tight">Thông tin 2:</span>
+                    <span class="text-emerald-600 font-black text-lg">Giá trị 2</span>
                 </div>
             </div>
         </div>
 
+        <!-- FRAME: Action Bar (Bottom) -->
         <div class="action-bar">
             <div class="flex gap-3">
                 <button class="flex-1 py-4 bg-gray-100 text-gray-500 font-bold rounded-2xl text-xs tracking-widest active:scale-95 transition-transform">
-                    STOP
+                    HỦY
                 </button>
                 <button class="flex-[2.5] py-4 bg-[#A11B4B] text-white font-black rounded-2xl text-xs tracking-[0.15em] uppercase btn-shadow active:scale-95 transition-all">
-                    QUÉT TIẾP
+                    TÁC VỤ CHÍNH
                 </button>
             </div>
         </div>
     </div>
 
+    <!-- FRAME: Settings Modal -->
     <div id="settingModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center px-6 bg-black/70 backdrop-blur-md">
         <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 shadow-2xl transition-all">
             <h3 class="text-xl font-extrabold mb-8 text-gray-900 border-b pb-4">CẤU HÌNH</h3>
             <div class="space-y-6">
                 <div class="flex justify-between items-center font-bold text-sm">
-                    <span class="text-gray-600">Tự động quét tiếp</span>
+                    <span class="text-gray-600">Tùy chọn 1</span>
                     <div class="w-12 h-6 bg-emerald-500 rounded-full relative p-1 cursor-pointer">
                         <div class="absolute right-1 w-4 h-4 bg-white rounded-full"></div>
                     </div>
                 </div>
                 <div class="flex justify-between items-center font-bold text-sm text-gray-400">
-                    <span>Âm thanh (Beep)</span>
+                    <span>Tùy chọn 2</span>
                     <div class="w-12 h-6 bg-gray-200 rounded-full relative p-1 cursor-pointer">
                         <div class="absolute left-1 w-4 h-4 bg-white rounded-full"></div>
                     </div>
