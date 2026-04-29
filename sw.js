@@ -1,4 +1,4 @@
-const CACHE_VERSION = '1.1.7';
+const CACHE_VERSION = '1.1.8';
 const CACHE_NAMES = {
   app: `qr-scan-app-${CACHE_VERSION}`,
   cdn: `qr-scan-cdn-${CACHE_VERSION}`,
