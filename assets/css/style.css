@@ -66,21 +66,25 @@ body {
     flex: 1;
     min-height: 0;
     z-index: 1;
+    /* Không cần padding-bottom vì info-section đã fixed ở dưới */
 }
 
 #info-section {
-    position: relative;
-    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     height: var(--info-height);
     max-height: none;
-    background: rgb(191, 35, 35);
+    background: white;
     border-top-left-radius: 2.5rem;
     border-top-right-radius: 2.5rem;
     box-shadow: 0 -15px 30px rgba(0,0,0,0.4);
     z-index: 10;
     display: flex;
     flex-direction: column;
-    margin-top: calc(-1 * var(--overlap));
+    /* Padding bảo vệ inner elements khỏi safe-area */
+    padding-bottom: env(safe-area-inset-bottom);
     overscroll-behavior: contain;
 }
 
@@ -93,8 +97,10 @@ body {
 }
 
 .action-bar {
-    padding: 0.5rem;
+    padding:0.5rem;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);
     background: white;
+    margin-top: auto; /* Đẩy xuống đáy info-section */
 }
 
 .btn-shadow {
