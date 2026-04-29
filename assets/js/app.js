@@ -1,5 +1,5 @@
 // App version - sẽ được bump-version.ps1 cập nhật
-const buildVersion = '1.1.0';
+const buildVersion = '1.1.1';
 
 // Toggle modal settings
 function toggleModal() {
