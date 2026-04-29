@@ -17,5 +17,5 @@ if [ $status -ne 0 ]; then
   exit $status
 fi
 
-git add index.html sw.js js/app.js
+git add index.html sw.js assets/js/app.js
 exit 0
