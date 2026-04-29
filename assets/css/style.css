@@ -73,7 +73,7 @@ body {
     width: 100%;
     height: var(--info-height);
     max-height: none;
-    background: white;
+    background: rgb(191, 35, 35);
     border-top-left-radius: 2.5rem;
     border-top-right-radius: 2.5rem;
     box-shadow: 0 -15px 30px rgba(0,0,0,0.4);
