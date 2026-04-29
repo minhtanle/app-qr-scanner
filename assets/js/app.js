@@ -1,5 +1,5 @@
 // App version - sẽ được bump-version.ps1 cập nhật
-const buildVersion = '1.1.8';
+const buildVersion = '1.1.9';
 
 // Fix viewport height on mobile (khắc phục lỗi alert làm lệch layout)
 function fixViewportHeight() {
@@ -86,7 +86,18 @@ if ('serviceWorker' in navigator) {
     });
 
     window.addEventListener('load', () => {
-        console.log(`Da tai code moi. Build: ${buildVersion}`);
+        // Hiện Version Toast
+        const versionToast = document.getElementById('version-toast');
+        const versionText = document.getElementById('version-text');
+        if (versionToast && versionText) {
+            versionText.textContent = buildVersion;
+            versionToast.classList.remove('hidden');
+            setTimeout(() => {
+                versionToast.classList.add('hidden');
+            }, 3000);
+        }
+
+        console.log(`%cDa tai code moi. Build: ${buildVersion}`, 'color: #10b981; font-weight: bold; font-size: 14px;');
 
         navigator.serviceWorker.register('./sw.js').then((registration) => {
             // Kiểm tra nếu có SW mới đang chờ
