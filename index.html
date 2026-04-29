@@ -217,8 +217,12 @@
         }
 
         if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                window.location.reload();
+            });
+
             window.addEventListener('load', () => {
-                const buildVersion = '1.0.9';
+                const buildVersion = '1.0.10';
                 alert(`Da tai code moi. Build: ${buildVersion}`);
 
                 navigator.serviceWorker.register('./sw.js').catch(() => {
@@ -227,7 +231,7 @@
             });
         } else {
             window.addEventListener('load', () => {
-                const buildVersion = '1.0.9';
+                const buildVersion = '1.0.10';
                 alert(`Da tai code moi. Build: ${buildVersion}`);
             });
         }

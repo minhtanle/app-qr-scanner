@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" role="img" aria-label="QR Scan Pro">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1020"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <rect width="192" height="192" rx="40" fill="url(#bg)"/>
+  <rect x="32" y="32" width="52" height="52" rx="8" fill="none" stroke="#34d399" stroke-width="8"/>
+  <rect x="108" y="32" width="52" height="52" rx="8" fill="none" stroke="#34d399" stroke-width="8"/>
+  <rect x="32" y="108" width="52" height="52" rx="8" fill="none" stroke="#34d399" stroke-width="8"/>
+  <rect x="118" y="118" width="16" height="16" fill="#ffffff"/>
+  <rect x="142" y="118" width="16" height="16" fill="#ffffff"/>
+  <rect x="118" y="142" width="40" height="16" fill="#ffffff"/>
+</svg>
