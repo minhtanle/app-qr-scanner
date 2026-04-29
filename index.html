@@ -13,10 +13,13 @@
     <title>Web Mobile QR Scan Pro</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/css/style.css?v=1.1.9">
+    <link rel="stylesheet" href="./assets/css/style.css?v=1.1.10">
+
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
 </head>
 <body class="relative">
-    
+
     <!-- Version Toast - Nằm ngoài các container để không bị hidden -->
     <div id="version-toast" class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-[200] bg-black/80 text-white text-xs font-bold py-2 px-4 rounded-full shadow-lg backdrop-blur-md transition-opacity duration-300">
         Build: <span id="version-text"></span>
@@ -88,7 +91,7 @@
             </div>
         </div>
 
-        <div class="action-bar">
+        <div class="action-bar bg-gray-500">
             <div class="flex gap-3">
                 <button class="flex-1 py-4 bg-gray-100 text-gray-500 font-bold rounded-2xl text-xs tracking-widest active:scale-95 transition-transform">
                     STOP
@@ -121,6 +124,6 @@
         </div>
     </div>
 
-    <script src="./assets/js/app.js?v=1.1.9"></script>
+    <script src="./assets/js/app.js?v=1.1.10"></script>
 </body>
 </html>
